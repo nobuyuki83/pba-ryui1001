@@ -55,7 +55,6 @@ fn problem1() -> anyhow::Result<()> {
         del_canvas::rasterize::line::draw_dda(&mut canvas.data, canvas.width, &p0, &p1, 1);
         //-------------------------------
         // write some code below.
-        
         // modify the defninition of p2
         let p2 = [
             p1[0],
