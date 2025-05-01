@@ -39,21 +39,21 @@ Topics:
 
 ## Lecture Schedule
 
-| Day | Topic | Assignment | Slide |
-|:----|:---|:---|-----|
-| (1)<br> Apr. 7 | **Introduction**<br>Data structure for simulation, Explicit/implicit shape representation | | [1,2] |
+| Day | Topic | Assignment       | Slide |
+|:----|:---|:-----------------|-----|
+| (1)<br> Apr. 7 | **Introduction**<br>Data structure for simulation, Explicit/implicit shape representation |                  | [1,2] |
 | (2)<br> Apr. 21 | **Programming 1**<br>Introduction to Rust language, GitHub | [task00](task00) | [3,4] |
-| (3)<br> Apr. 28 | **Time Integration**<br>Backward & forward Euler method, particle system, Barnes–Hut method | task01 | |
-| (4)<br> May 8 | **Newtonian Mechanics**<br/>| task02 | |
-| (5)<br> May 12 | **Collision Detection**<br/>principal component analysis<br>sort & sweep method, bounding volume hierarchy<br> | task03 | |
-| (6)<br> May 19 | **Optimization**<br>Hessian & Jacdobian, Sparse matrix data structure, Conjugate gradient method | task04 | |
-| (7)<br> May 26 | **Simple Elastic Energy**<br/>Newton-Raphson method<br>mass-spring system | task05 | |
-| (8)<br> June 9 | **Programming 2**<br>Introduction to Unity & C# | task06 | |
-| (9)<br> June 16 | **Dynamic Simulation**<br/>Variational time integration | task07 | |
-| (10)<br> June 23 | **Optimization with Constraint**<br/> Lagrange multiplier method | task08 | |
-| (11)<br> June 30 | **Rotation**<br>Rotation representation | task09 | |
-| (12)<br> July 7 | **Rigid Body Dynamics** <br/>inertia tensor, <br/>angular velocity | task10 | |
-| (13)<br> July 14 | **Continuum Mechanics**<br> tensor,<br> finite element method |  | |
+| (3)<br> Apr. 28 | **Time Integration**<br>Backward & forward Euler method, particle system, Barnes–Hut method | [task01](task01) | [5,6] |
+| (4)<br> May 8 | **Newtonian Mechanics**<br/>| task02           |     |
+| (5)<br> May 12 | **Collision Detection**<br/>principal component analysis<br>sort & sweep method, bounding volume hierarchy<br> | task03           |     |
+| (6)<br> May 19 | **Optimization**<br>Hessian & Jacdobian, Sparse matrix data structure, Conjugate gradient method | task04           |     |
+| (7)<br> May 26 | **Simple Elastic Energy**<br/>Newton-Raphson method<br>mass-spring system | task05           |     |
+| (8)<br> June 9 | **Programming 2**<br>Introduction to Unity & C# | task06           |     |
+| (9)<br> June 16 | **Dynamic Simulation**<br/>Variational time integration | task07           |     |
+| (10)<br> June 23 | **Optimization with Constraint**<br/> Lagrange multiplier method | task08           |     |
+| (11)<br> June 30 | **Rotation**<br>Rotation representation | task09           |     |
+| (12)<br> July 7 | **Rigid Body Dynamics** <br/>inertia tensor, <br/>angular velocity | task10           |     |
+| (13)<br> July 14 | **Continuum Mechanics**<br> tensor,<br> finite element method |                  |     |
 
 #### Slides
 
@@ -62,6 +62,7 @@ Topics:
 - [3] [Rust](http://nobuyuki-umetani.com/pba2025s/rust.pdf)
 - [4] [Git & GitHub](http://nobuyuki-umetani.com/pba2025s/git_wo_link.pdf) 
 - [5] [Time Integration](http://nobuyuki-umetani.com/pba2025s/time_integration.pdf)
+- [6] [Floating Point Number](http://nobuyuki-umetani.com/pba2025s/floating_point_number.pdf)
 
 
 ## Grading
@@ -77,19 +78,19 @@ There are many small programming assignments. To do the assignments, you need to
 
 [How to Submit the Assignments](doc/submit.md)
 
-| Task ID | Language | Title (tantative) | Thumbnail |
-| :--- | :--- | :--------------------------- | :----------------------------------------- |
+| Task ID          | Language | Title (tantative) | Thumbnail                 |
+|:-----------------| :--- | :------------------------ |:--------------------------|
 | [task00](task00) | Rust | Building Rust project & submitting GitHub pull request | ![](task00/thumbnail.gif) |
-| task01 | Rust | Implicit Time Integration    | |
-| task02 | Rust | Linear Momentum Conservation | |
-| task03 | Rust | Acceleration of N-body Simulation | |
-| task04 | Rust | Accelerated nearest search using Kd-Tree |  |
-| task05 | Rust | Solving Laplace equation with Gauss-Seidel Method | |
-| task06 | C# | Gradient Descent for Mass-Spring Simulation | |
-| task07 | C# | Dynamic Mass-spring System using Variational Euler Time Integration | |
-| task08 | C# | Controlling Volume of a Mesh using Lagrange-Multiplier Method |  |
-| task09 | C# | Rotation and Energy Minimization | |
-| task10 | C# | Simulation of Rigid Body Precession | |
+| [task01](task01) | Rust | Implicit Time Integration | ![](task01/thumbnail.gif) |
+| task02           | Rust | Linear Momentum Conservation |                           |
+| task03           | Rust | Acceleration of N-body Simulation |                           |
+| task04           | Rust | Accelerated nearest search using Kd-Tree |                           |
+| task05           | Rust | Solving Laplace equation with Gauss-Seidel Method |                           |
+| task06           | C# | Gradient Descent for Mass-Spring Simulation |                           |
+| task07           | C# | Dynamic Mass-spring System using Variational Euler Time Integration |                           |
+| task08           | C# | Controlling Volume of a Mesh using Lagrange-Multiplier Method |                           |
+| task09           | C# | Rotation and Energy Minimization |                           |
+| task10           | C# | Simulation of Rigid Body Precession |                           |
 
 
 #### Policy

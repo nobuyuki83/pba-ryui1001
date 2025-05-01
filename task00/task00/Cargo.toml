@@ -1,0 +1,11 @@
+[package]
+name = "task00"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# anyhow is a poupular error handling library
+anyhow = "1.0.97"
+
+# `del-canvas` is the minimalistic rasiterization library Nobuyuki wrote. 
+del-canvas = "=0.1.3"

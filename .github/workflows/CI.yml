@@ -32,3 +32,5 @@ jobs:
         run: |
           cd task00
           cargo build --verbose
+          cd ../task01
+          cargo build --verbose
