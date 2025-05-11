@@ -53,15 +53,29 @@ fn collide_particle_ball(
     let plane_org = ball_pos + plane_norm * ball_rad;
     let height = (p.pos - plane_org).dot(&plane_norm);
     p.pos -= height * 2. * plane_norm;
-    ////////////////////////
-    // write some code
 
-    // comment out the line below.
-    p.velo -= 2f32 * (p.velo - *ball_velo).dot(&plane_norm) * plane_norm;
+    let m1 = *particle_mass;  
+    let m2 =  ball_mass;       
 
-    // *ball_velo +=
-    // p.velo -=
+    // 法線ベクトル
+    let n = plane_norm;
 
+    let v1n = p.velo.dot(&n);        
+    let v2n = ball_velo.dot(&n);     
+    let v1t = p.velo - v1n * n;      
+    let v2t = *ball_velo - v2n * n;  
+
+
+    if (v1n - v2n) >= 0.0 {
+        return;
+    }
+
+
+    let v1n_after = ((m1 - m2) * v1n + 2.0 * m2 * v2n) / (m1 + m2);
+    let v2n_after = ((m2 - m1) * v2n + 2.0 * m1 * v1n) / (m1 + m2);
+
+    p.velo        = v1t + v1n_after * n;
+    *ball_velo    = v2t + v2n_after * n;
     // no edit from here
     ////////////////////////
 }
