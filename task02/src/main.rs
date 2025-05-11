@@ -53,29 +53,36 @@ fn collide_particle_ball(
     let plane_org = ball_pos + plane_norm * ball_rad;
     let height = (p.pos - plane_org).dot(&plane_norm);
     p.pos -= height * 2. * plane_norm;
-
-    let m1 = *particle_mass;  
-    let m2 =  ball_mass;       
+    ////////////////////////
+    // 質量
+    let m1 = *particle_mass;   // 粒子
+    let m2 =  ball_mass;       // ボール
 
     // 法線ベクトル
     let n = plane_norm;
 
-    let v1n = p.velo.dot(&n);        
-    let v2n = ball_velo.dot(&n);     
-    let v1t = p.velo - v1n * n;      
-    let v2t = *ball_velo - v2n * n;  
+    // 各速度を法線成分と接線成分に分解
+    let v1n = p.velo.dot(&n);         // 粒子の法線速度（スカラー）
+    let v2n = ball_velo.dot(&n);      // ボールの法線速度（スカラー）
+    let v1t = p.velo - v1n * n;       // 粒子の接線速度（ベクトル）
+    let v2t = *ball_velo - v2n * n;   // ボールの接線速度（ベクトル）
 
-
+    // 衝突前に分離しつつある場合は何もしない
     if (v1n - v2n) >= 0.0 {
         return;
     }
 
-
+    // 1 次元弾性衝突公式（e = 1）
     let v1n_after = ((m1 - m2) * v1n + 2.0 * m2 * v2n) / (m1 + m2);
     let v2n_after = ((m2 - m1) * v2n + 2.0 * m1 * v1n) / (m1 + m2);
 
+    // 新しい速度 = 接線成分 + 更新後の法線成分
     p.velo        = v1t + v1n_after * n;
     *ball_velo    = v2t + v2n_after * n;
+
+    // *ball_velo +=
+    // p.velo -=
+
     // no edit from here
     ////////////////////////
 }
