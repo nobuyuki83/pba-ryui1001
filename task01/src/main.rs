@@ -1,8 +1,7 @@
 /*!
- * Task01:  Implicit Time Integration
- */
+ * Task01:  Implicit Time Integration(陰解法時間差分法) */
 
-/// Explicit time integration
+/// Explicit time integration（陽解法時間積分スキーム）
 ///
 /// # Argument
 /// * `rv0` - pair of altitude from the center of the planet and its velocity
@@ -19,7 +18,7 @@ fn time_integration_explicit(rv0: &mut (f32, f32), dt: f32) {
 /// * `a` : 2x2 matrix with `f32` elements
 ///
 /// # Return
-/// Option of unversed 2x2 matrix. The option is `None` is the input is singular.
+/// Option of unversed 2x2 matrix. The option is `None` if the input is singular.
 /// Read https://doc.rust-lang.org/rust-by-example/std/option.html for the details of the Option syntax.
 fn inverse_matrix_2x2(a: &[[f32; 2]; 2]) -> Option<[[f32; 2]; 2]> {
     let det = a[0][0] * a[1][1] - a[0][1] * a[1][0];
@@ -47,20 +46,19 @@ fn mult_mat2_vec(a: &[[f32; 2]; 2], b: &[f32; 2]) -> [f32; 2] {
 /// * `rv0` - pair of altitude from the center of the planet and its velocity
 /// * `dt` - time step
 fn time_integration_implicit(rv0: &mut (f32, f32), dt: f32) {
-    let r0 = rv0.0;
-    let v0 = rv0.1;
+    let r0: f32 = rv0.0;
+    let v0: f32 = rv0.1;
     // ----------------------
     // write some code below
 
-    let dfdr = 2f32 / (r0 * r0 * r0); // hint!
+    let dfdr: f32 = 2f32 / (r0 * r0 * r0); // hint!
+                                           //ヤコビ行列Jを計算する
 
-    // let a_mat = [[???, ???], [???, ???]]; // hint
-    // let b_vec = [???, ???]; // hint
-    // let a_mat_inv = inverse_matrix_2x2(&a_mat).unwrap(); // hint
-    // let res = mult_mat2_vec(&a_mat_inv, &b_vec); // hint
-    // *rv0 = (res[0], res[1]); // hint
-
-    *rv0 = (r0, v0); // delete this line
+    let a_mat: [[f32; 2]; 2] = [[1f32, -dt], [-dt * dfdr, 1f32]]; // hint
+    let b_vec: [f32; 2] = [dt * v0, -dt * 1f32 / (r0 * r0)]; // hint
+    let a_mat_inv: [[f32; 2]; 2] = inverse_matrix_2x2(&a_mat).unwrap(); // hint
+    let res: [f32; 2] = mult_mat2_vec(&a_mat_inv, &b_vec); // hint
+    *rv0 = (r0 + res[0], v0 + res[1]); // hint
 
     // no further edit from here
     // ----------------------
@@ -75,9 +73,9 @@ fn reflection(rv0: &mut (f32, f32)) {
     let r0 = rv0.0;
     let v0 = rv0.1;
     let energy0 = 0.5f32 * v0 * v0 - 1f32 / r0; // energy before reflection
+    let energy1 = energy0; // energy after reflection
     let r1 = 0.5f32;
-    let v1 = (2f32 * energy0 + 4f32).max(0.).sqrt();
-    let energy1 = 0.5f32 * v1 * v1 - 1f32 / r1; // energy before reflection
+    let v1 = (2f32 * energy1 + 4f32).max(0.).sqrt();
 
     // dbg!(energy1, energy0);
 
