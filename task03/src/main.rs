@@ -111,38 +111,45 @@ impl Acceleration {
 /// # Args
 /// * `particles` - particles
 /// * `acc` - acceleration data structure
+/// For each particle, set summation of gravitational forces
+/// from all the other particles in an accelerated way
 fn set_force_accelerated(particles: &mut [Particle], acc: &Acceleration) {
     for i_particle in 0..particles.len() {
-        // cell index of this particle
         let i_cell =
             cell_index_from_position(&particles[i_particle].pos, acc.box_size, acc.num_div);
-        // grid coordinate
         let (ix, iy) = (i_cell % acc.num_div, i_cell / acc.num_div);
+
         particles[i_particle].force = Vec2f::new(0., 0.);
-        // loop over all the grid set force to the particle with index `ip`
+
+
         for j_cell in 0..acc.num_div * acc.num_div {
-            // grid coordinate of `j_cell`
             let (jx, jy) = (j_cell % acc.num_div, j_cell / acc.num_div);
             if ix.abs_diff(jx) <= 1 && iy.abs_diff(jy) <= 1 {
-                // this grid is near to the particle as the grid indexes are close
                 for jdx in acc.cell2idx[j_cell]..acc.cell2idx[j_cell + 1] {
-                    let j_particle = acc.idx2ipic[jdx].0; // particle index in this cell
+                    let j_particle = acc.idx2ipic[jdx].0;
                     if i_particle == j_particle {
                         continue;
                     }
                     let diff = particles[j_particle].pos - particles[i_particle].pos;
                     particles[i_particle].force += gravitational_force(&diff);
                 }
-            } else {
-                // far field approximation
-                // write the code to approximate the force from particles in this cell.
-                let cg = acc.cell2cg[j_cell]; // hint: center of the gravity in this cell
-                let num_particle_in_cell = acc.cell2idx[j_cell + 1] - acc.cell2idx[j_cell]; // hint number of the particle in this cell
-                // particles[i_particle].force +=
+            }
+            else {
+                let num_particle_in_cell =
+                    acc.cell2idx[j_cell + 1] - acc.cell2idx[j_cell];
+                if num_particle_in_cell == 0 {
+                    continue; 
+                }
+
+                let cg = acc.cell2cg[j_cell];        
+                let diff = cg - particles[i_particle].pos;
+                particles[i_particle].force +=
+                    gravitational_force(&diff) * (num_particle_in_cell as f32);
             }
         }
     }
 }
+
 
 /// the arguments of command line
 #[derive(clap::Parser, Debug)]
