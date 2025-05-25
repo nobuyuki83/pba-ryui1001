@@ -66,9 +66,9 @@ Fill the 1st column of the table below for the `brute force` by running the prog
 
 | #particle | time bruteforce (ms) | time kd-tree naive (ms) | time kd-tree faster |
 |-----------|----------------------|-------------------------|---------------------|
-| 10k       | 179                     | ?                       | ?                   |
-| 20k       | 729                    | ?                       | ?                   | 
-| 40k       | 2720                    | ?                       | ?                   |
+| 10k       | 179                     | 220                       | 10                   |
+| 20k       | 729                    | 549                       | 12                   | 
+| 40k       | 2720                    | 1814                       | 14                   |
 
 Observe the quadratic computational cost (x2 particle result in x4 time) for the brute force computation.
 
