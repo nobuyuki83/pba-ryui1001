@@ -51,7 +51,7 @@ Write the number below.
 
 | Dirichlet's energy in the initial state at resolution=256 |
 |-----------------------------------------------------------|
-| ???                                                       |
+| 21052.887                                                       |
 
 
 ## Problem 1
