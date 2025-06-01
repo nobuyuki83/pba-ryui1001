@@ -80,7 +80,14 @@ pub fn gradient(xy: &[f32; 2], img_resolution: usize, pix2val: &[f32]) -> [f32; 
     // ---------------------
     // write some code below to compute gradient
 
-    [0f32, 0f32] // comment out
+    let dval_drx = (val_se - val_sw) * (1.0 - ry) + (val_ne - val_nw) * ry;
+    let dval_dry = (val_nw - val_sw) * (1.0 - rx) + (val_ne - val_se) * rx; 
+    
+    let dx = dval_drx * img_resolution as f32;
+    let dy = dval_dry * img_resolution as f32;
+
+    [dx, dy]
+    // comment out
 
     // no edit from here
     // -----------------
