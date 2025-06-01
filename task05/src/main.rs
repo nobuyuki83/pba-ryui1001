@@ -109,7 +109,7 @@ fn solve_laplace_gauss_seidel_on_grid(
             // ------------------------
             // write some code below
 
-            // pix2val[i_pix_center] =  // hint
+            pix2val[i_pix_center] =  0.25f32*(val_north + val_south + val_west + val_east)// hint
 
             // no edit from here
             // -------------------------------
