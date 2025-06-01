@@ -11,7 +11,24 @@ pub fn pixel_north_west_to_xy(xy: &[f32; 2], img_resolution: usize) -> Option<us
     // ------------------
     // implement some code below.
 
-    None // comment out
+    if x < 0.0 || y < 0.0 {
+        return None;
+    }
+    if x >= (img_resolution - 1) as f32 || y >= (img_resolution - 1) as f32 {
+        return None;
+    }
+
+    let ix = x.floor() as usize;
+    let iy = y.floor() as isize;
+
+    // y軸方向の上下反転
+    let iy_rev = (img_resolution as isize - 2) - iy;
+
+    if iy_rev < 0 || iy_rev >= img_resolution as isize {
+        return None;
+    }
+
+    Some((iy_rev as usize) * img_resolution + ix)
 
     // no edit from here
     // -----------------
