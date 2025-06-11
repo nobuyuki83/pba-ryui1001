@@ -32,7 +32,7 @@ pub fn pixel_north_west_to_xy(xy: &[f32; 2], img_resolution: usize) -> Option<us
     // no edit from here
     // -----------------
 }
-
+/// small test
 /// test for `pixel_north_west_to_xy` function.
 #[test]
 fn test_pixel_north_west_to_xy() {
