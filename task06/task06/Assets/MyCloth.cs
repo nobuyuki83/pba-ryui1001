@@ -91,8 +91,16 @@ public class MyCloth : MonoBehaviour
     // this function returns the gradient of a spring elastic energy w.r.t. the spring's end position
     Vector3[] gradient_spring(Vector3[] node2xyz, float length_ini, float stiffness) {
         float length = Vector3.Distance(node2xyz[0], node2xyz[1]); // distance between p0 and p1
-        // ---------- write some code below
+        Vector3 p0 = node2xyz[0];
+        Vector3 p1 = node2xyz[1];
 
-        return new Vector3[2] { Vector3.zero, Vector3.zero }; // comment out this line
+        Vector3 d = p1 - p0;
+        Vector3 direction = d / length;                                                      // ---------- write some code below
+        float C = length - length_ini;
+        Vector3 grad = stiffness * C  * direction;
+
+        return new Vector3[2] { -grad, grad };
+
+        //return new Vector3[2] { Vector3.zero, Vector3.zero }; // comment out this line
     }
 }
