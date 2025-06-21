@@ -139,11 +139,15 @@ public class MyCloth : MonoBehaviour
         float3x3 n = stiffness * l;
         // ----------------------
         // write some code below to modify the hessian
+        float ratio  = length_ini / length;  
+        float3x3 I3 = float3x3.identity;
+        float3x3 K = stiffness * (1.0f - ratio) * I3
+               + ratio * n;
 
         float3x3 o = n;
         return new float3x3[2,2] {
-            {o, -o}, 
-            {-o, o}                   
+            {K, -K}, 
+            {-K, K}                   
         };
     }
 }
