@@ -78,9 +78,17 @@ public class MyInflater : MonoBehaviour
             // -----------------------------
             // write some code below to set values in the linear system to set constraint to specify volume
             // use the lagrange multiplier method to set the volume constraint
+            for (int j = 0; j < 3; ++j)
+            {
+                int iv = node2vtx[j];
+                float3 g = grad_volume[j];
 
+                rhs_vector[iv] += lambda * g;
 
-
+                bsm.AddBlockAt(iv,      num_vtx, OuterProduct(g, new float3(1, 0, 0))); 
+                bsm.AddBlockAt(num_vtx, iv,      OuterProduct(new float3(1, 0, 0), g)); 
+            }
+            rhs_vector[num_vtx].x -= volume;
             // end of the edit
             // ---------------------
         }
@@ -169,9 +177,9 @@ public class MyInflater : MonoBehaviour
         float volume = 1.0f / 6.0f * math.dot(math.cross(node2xyz[1], node2xyz[2]), node2xyz[0]);   
         float3[] gradient = new float3[3];
         // ---------        
-        // write some code to compute the gradient of the volume with respect to the vertex positions
-
-        // end of editing
+        gradient[0] = (1.0f / 6.0f) * math.cross(node2xyz[1], node2xyz[2]); 
+        gradient[1] = (1.0f / 6.0f) * math.cross(node2xyz[2], node2xyz[0]); 
+        gradient[2] = (1.0f / 6.0f) * math.cross(node2xyz[0], node2xyz[1]); 
         // ---------------
         return (volume, gradient);
     }    
