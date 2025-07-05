@@ -69,8 +69,10 @@ public class MyHangerGD : MonoBehaviour
             Debug.Log("Frame" + i_frame + "Energy: " + w);
             // ----------------------------------
             // edit below to compute the gradient
-            Vector3 dwdt = Vector3.zero; // differentiation of the energy w.r.t. translation
-            Vector3 dwdo = Vector3.zero; // differentiation of the rotation w.r.t. rotation
+            Vector3 dwdt = penalty * (pin_def - pin_goal) - mass * gravity; // differentiation of the energy w.r.t. translation
+            Vector3 torque_penalty = Vector3.Cross(rot * pin, penalty * (pin_def - pin_goal));
+            Vector3 torque_gravity = Vector3.Cross(rot * cog, mass * gravity);
+            Vector3 dwdo = torque_penalty + torque_gravity;// differentiation of the rotation w.r.t. rotation
             // end of edit
             // -----------------------------------
             this.transform.position -= lr * dwdt;
