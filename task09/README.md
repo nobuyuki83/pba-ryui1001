@@ -75,7 +75,7 @@ Write the coordinate of the center of gravity below.
 
 | the center of gravity |
 |-----------------------|
-| (?, ?, ?)             |
+| (-0.09, -0.09, -0.07)       |
 
 Write a few lines of code around `line #70` in the `pba-<username>/task09/task09/MyHangerGD.cs`.
 

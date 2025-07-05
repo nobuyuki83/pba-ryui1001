@@ -37,10 +37,11 @@ public class MyHangerGD : MonoBehaviour
             Vector3 v2 = vtx2xyz[i2];
             float volume_tet = Vector3.Dot(Vector3.Cross(v0, v1), v2) / 6.0f;
             volume += volume_tet;
+            cog += (v0 + v1 + v2)/tri.Length ;
         }
         // end of edit
         // ------------------------
-        Debug.Log("Volume: " + volume + " CoG" + cog);
+        Debug.Log("Volume: " + volume + " CoG:" + cog);
 
         cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         SetCylinderBetween(cylinder, pin, cog, 0.05f); // add a cylinder between pin and CoG
