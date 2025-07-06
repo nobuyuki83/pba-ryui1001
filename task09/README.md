@@ -94,7 +94,7 @@ Write down the energy value at the 300th frame shown in the Debug output in the 
 
 | energy at 300th frame |
 |-----------------------|
-| ???                   |
+| -0.265814                |
 
 
 
