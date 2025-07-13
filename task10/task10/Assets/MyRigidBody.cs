@@ -36,12 +36,15 @@ public class MyRigidBody : MonoBehaviour
             this.transform.rotation = rot * Quaternion.AngleAxis(math.length(omega) * timeStep * 180.0f / Mathf.PI, Vector3.Normalize(omega));
             // ----------------
             // write a few line of code below to update the angular velocity at the reference configuration `omega` using forward time integration
-
-            // omega += ???
+            float3x3 I_inv = math.inverse(inertia_tensor);
+            float3 internal_torque = -math.cross(omega, math.mul(inertia_tensor, omega));
+            float3 omega_dot = math.mul(I_inv, internal_torque); // angular acceleration
+            omega += omega_dot * timeStep;
+            //Debug.Log($"Frame: {Time.frameCount} , omega : {omega}, omega_dot : {omega_dot}, I_inv : {I_inv}");
 
             // end of edit
             // ----------------
-        }
+        } 
         //
         var energy = 0.5f * math.dot(omega, math.mul(inertia_tensor, omega));
         var momentum = this.transform.rotation * math.mul(inertia_tensor, omega);
@@ -76,7 +79,6 @@ public class MyRigidBody : MonoBehaviour
 
     static float3x3 InertiaTensorForTriangleMesh(int[] tri2vtx, Vector3[] vtx2xyz) {
         float3x3 res = float3x3.zero;
-        float3x3 inertiaTensor = float3x3.zero;
         float Sxx = 0, Syy = 0, Szz = 0;
         // 非対角成分の積分項
         float Sxy = 0, Sxz = 0, Syz = 0;
@@ -100,32 +102,26 @@ public class MyRigidBody : MonoBehaviour
             float p2x = p2.x, p2y = p2.y, p2z = p2.z;
 
             Sxx += (p0x * p0x + p1x * p1x + p2x * p2x + p0x * p1x + p0x * p2x + p1x * p2x) * volume;
-            // ∫y^2 dV の計算
             Syy += (p0y * p0y + p1y * p1y + p2y * p2y + p0y * p1y + p0y * p2y + p1y * p2y) * volume;
-            // ∫z^2 dV の計算
             Szz += (p0z * p0z + p1z * p1z + p2z * p2z + p0z * p1z + p0z * p2z + p1z * p2z) * volume;
-            // ∫xy dV の計算
             Sxy += (2 * p0x * p0y + 2 * p1x * p1y + 2 * p2x * p2y + p0x * p1y + p1x * p0y + p0x * p2y + p2x * p0y + p1x * p2y + p2x * p1y) * volume;
-            // ∫xz dV の計算
             Sxz += (2 * p0x * p0z + 2 * p1x * p1z + 2 * p2x * p2z + p0x * p1z + p1x * p0z + p0x * p2z + p2x * p0z + p1x * p2z + p2x * p1z) * volume;
-            // ∫yz dV の計算
             Syz += (2 * p0y * p0z + 2 * p1y * p1z + 2 * p2y * p2z + p0y * p1z + p1y * p0z + p0y * p2z + p2y * p0z + p1y * p2z + p2y * p1z) * volume;
-            // ------------------
         }
 
         float c = 1.0f / 10.0f; 
         float d = 1.0f / 20.0f; 
 
-        inertiaTensor.c0.x = c * (Syy + Szz);
-        inertiaTensor.c1.y = c * (Sxx + Szz);
-        inertiaTensor.c2.z = c * (Sxx + Syy);
-        inertiaTensor.c0.y = -d * Sxy;
-        inertiaTensor.c1.x = -d * Sxy;
-        inertiaTensor.c0.z = -d * Sxz;
-        inertiaTensor.c2.x = -d * Sxz;
-        inertiaTensor.c1.z = -d * Syz;
-        inertiaTensor.c2.z = -d * Syz;
+        res.c0.x = c * (Syy + Szz);
+        res.c1.y = c * (Sxx + Szz);
+        res.c2.z = c * (Sxx + Syy);
+        res.c0.y = -d * Sxy;
+        res.c1.x = -d * Sxy;
+        res.c0.z = -d * Sxz;
+        res.c2.x = -d * Sxz;
+        res.c1.z = -d * Syz;
+        res.c2.y = -d * Syz;
 
-        return inertiaTensor;
+        return res;
     }
 }
