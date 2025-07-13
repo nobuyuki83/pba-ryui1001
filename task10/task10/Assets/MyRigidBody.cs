@@ -76,21 +76,57 @@ public class MyRigidBody : MonoBehaviour
 
     static float3x3 InertiaTensorForTriangleMesh(int[] tri2vtx, Vector3[] vtx2xyz) {
         float3x3 res = float3x3.zero;
-        for (int i_tri = 0; i_tri < tri2vtx.Length/3; i_tri++) {
+        float3x3 inertiaTensor = float3x3.zero;
+        float Sxx = 0, Syy = 0, Szz = 0;
+        // 非対角成分の積分項
+        float Sxy = 0, Sxz = 0, Syz = 0;
+        for (int i_tri = 0; i_tri < tri2vtx.Length / 3; i_tri++)
+        {
             int i0 = tri2vtx[i_tri * 3 + 0];
             int i1 = tri2vtx[i_tri * 3 + 1];
             int i2 = tri2vtx[i_tri * 3 + 2];
             float3 p0 = vtx2xyz[i0];
             float3 p1 = vtx2xyz[i1];
             float3 p2 = vtx2xyz[i2];
-            float volume = math.dot(p0, math.cross(p1, p2))/6.0f;
+            float volume = math.dot(p0, math.cross(p1, p2)) / 6.0f;
             float3 pa = p0 + p1 + p2;
             // -----------------
             // write some code below
-            res += (math.dot(pa* 0.25f, pa*0.25f)*float3x3.identity - OuterProduct(pa * 0.25f, pa * 0.25f)) * volume; // comment out, since this is a approximation where mass is centered at the cog of tetrahedron
+            //res += (math.dot(pa* 0.25f, pa*0.25f)*float3x3.identity - OuterProduct(pa * 0.25f, pa * 0.25f)) * volume; // comment out, since this is a approximation where mass is centered at the cog of tetrahedron
             // end of edit
             // ------------------
+            float p0x = p0.x, p0y = p0.y, p0z = p0.z;
+            float p1x = p1.x, p1y = p1.y, p1z = p1.z;
+            float p2x = p2.x, p2y = p2.y, p2z = p2.z;
+
+            Sxx += (p0x * p0x + p1x * p1x + p2x * p2x + p0x * p1x + p0x * p2x + p1x * p2x) * volume;
+            // ∫y^2 dV の計算
+            Syy += (p0y * p0y + p1y * p1y + p2y * p2y + p0y * p1y + p0y * p2y + p1y * p2y) * volume;
+            // ∫z^2 dV の計算
+            Szz += (p0z * p0z + p1z * p1z + p2z * p2z + p0z * p1z + p0z * p2z + p1z * p2z) * volume;
+            // ∫xy dV の計算
+            Sxy += (2 * p0x * p0y + 2 * p1x * p1y + 2 * p2x * p2y + p0x * p1y + p1x * p0y + p0x * p2y + p2x * p0y + p1x * p2y + p2x * p1y) * volume;
+            // ∫xz dV の計算
+            Sxz += (2 * p0x * p0z + 2 * p1x * p1z + 2 * p2x * p2z + p0x * p1z + p1x * p0z + p0x * p2z + p2x * p0z + p1x * p2z + p2x * p1z) * volume;
+            // ∫yz dV の計算
+            Syz += (2 * p0y * p0z + 2 * p1y * p1z + 2 * p2y * p2z + p0y * p1z + p1y * p0z + p0y * p2z + p2y * p0z + p1y * p2z + p2y * p1z) * volume;
+            // ------------------
         }
-        return res;
+
+        // 積分係数を適用してテンソルを構築
+        float c = 1.0f / 10.0f; // 対角成分用
+        float d = 1.0f / 20.0f; // 非対角成分用
+
+        inertiaTensor.c0.x = c * (Syy + Szz);
+        inertiaTensor.c1.y = c * (Sxx + Szz);
+        inertiaTensor.c2.z = c * (Sxx + Syy);
+        inertiaTensor.c0.y = -d * Sxy;
+        inertiaTensor.c1.x = -d * Sxy;
+        inertiaTensor.c0.z = -d * Sxz;
+        inertiaTensor.c2.x = -d * Sxz;
+        inertiaTensor.c1.z = -d * Syz;
+        inertiaTensor.c2.z = -d * Syz;
+
+        return inertiaTensor;
     }
 }
