@@ -113,9 +113,8 @@ public class MyRigidBody : MonoBehaviour
             // ------------------
         }
 
-        // 積分係数を適用してテンソルを構築
-        float c = 1.0f / 10.0f; // 対角成分用
-        float d = 1.0f / 20.0f; // 非対角成分用
+        float c = 1.0f / 10.0f; 
+        float d = 1.0f / 20.0f; 
 
         inertiaTensor.c0.x = c * (Syy + Szz);
         inertiaTensor.c1.y = c * (Sxx + Szz);
